@@ -47,20 +47,23 @@ PPM_Image* load_P6_PPM (const char *file_name){
   //--------------------STARTED READING IMAGE DATA---------------------------//
 
   while (fgetc(file) != '\n');
-  
-  //Allocate memory for the image data inside the PPM_Image variable
-  image->data = (PPM_Pixel *) malloc(img->x * img->y * sizeof(PPM_Pixel));
 
+  //Allocate memory for the image data inside the PPM_Image variable
+  image->data = (PPM_Pixel *) malloc(image->x * image->y * sizeof(PPM_Pixel));
   if (!image) {
     fprintf(stderr, "Failed to allocate memory.\n");
     exit(1);
   }
 
+  c = (fread(image->data, 3 * image->x, image->y, file));
 
+  if (c != image->y) {
+    fprintf(stderr, "Failed to load image.\n");
+    exit(1);
+  }
 
-  c = (fread(img->data,))
-
-
+  fclose(file)
+  return (image);
 }
 
 void check_PPM_Format(FILE *file, char *file_name){
