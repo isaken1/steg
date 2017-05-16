@@ -5,3 +5,8 @@
 - [Using GetOpt](http://www.gnu.org/software/libc/manual/html_node/Using-Getopt.html#Using-Getopt).
 
 - [Example of GetOpt](http://www.gnu.org/software/libc/manual/html_node/Example-of-Getopt.html#Example-of-Getopt).
+
+### Creating libraries and makefile
+- [Creating libraries](https://www.cs.swarthmore.edu/~newhall/unixhelp/howto_C_libraries.html)
+
+- [Compiling everything: The Makefile](https://pt.wikibooks.org/wiki/Programar_em_C/Makefiles)
