@@ -49,20 +49,20 @@ PPM_Image* load_P6_PPM (const char *file_name){
   while (fgetc(file) != '\n');
 
   //Allocate memory for the image data inside the PPM_Image variable
-  image->data = (PPM_Pixel *) malloc(image->x * image->y * sizeof(PPM_Pixel));
+  image->data = (PPM_Pixel *) malloc(image->width * image->height * sizeof(PPM_Pixel));
   if (!image) {
     fprintf(stderr, "Failed to allocate memory.\n");
     exit(1);
   }
 
-  c = (fread(image->data, 3 * image->x, image->y, file));
+  c = (fread(image->data, 3 * image->width, image->height, file));
 
-  if (c != image->y) {
+  if (c != image->height) {
     fprintf(stderr, "Failed to load image.\n");
     exit(1);
   }
 
-  fclose(file)
+  fclose(file);
   return (image);
 }
 
@@ -72,9 +72,21 @@ void check_PPM_Format(FILE *file, char *file_name){
     perror(file_name);
     exit(1)
   }
+
   //Check if the image header is = P6
   if (header[0] != 'P' || header[1] != '6') {
     fprintf(stderr, "Invalid format.\n", );
     exit(1);
   }
 }
+
+
+
+
+
+
+
+
+// Take the least significant bytes and change them according to the message
+// 1 char = 1 byte. 1 int = 4 bytes
+// Which means 1 char needs 8 least significant bytes to be written in, which means 2 integers variables.
