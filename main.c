@@ -2,13 +2,26 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "./lib/ppm.h"
+#include "main.h"
 
-int main(int argc, char **argv){
-	int e_flag = 0;
-	int d_flag = 0;
-	char *i_value = NULL;
-	char *f_value = NULL;
-	char *h_value = NULL;
+void encode(const char *file_name, const char *output_file, const char *file_format) {
+	write_P6_PPM(load_P6_PPM(file_name), "./output/output.ppm");
+}
+
+void decode() {
+	//TODO
+}
+
+void run() {
+	if (e_flag == 1) {
+		encode(i_value, h_value, f_value);
+	} else if (d_flag == 1) {
+		decode();
+	}
+}
+
+int main(int argc, char **argv) {
 	int index;
 	int c;
 
@@ -20,20 +33,35 @@ int main(int argc, char **argv){
 			switch (c) {
 				//Argument to set the program to encode an image
 				case 'e':
-					d_flag = 0;
+					if (d_flag == 1) {
+						fprintf(stderr, "Can not use -e and -d in the same execution. Please, try again.\n");
+						exit(1);
+					}
 					e_flag = 1;
 					break;
 				//Argument to set the program to decode an image
 				case 'd':
+					if (e_flag == 1) {
+						fprintf(stderr, "Can not use -e and -d in the same execution. Please, try again.\n");
+						exit(1);
+					}
 					d_flag = 1;
-					e_flag = 0;
+					break;
 				//Argument to set the input file
 				case 'i':
 					i_value = optarg;
+					if (strcmp(i_value, "") == 0) {
+						fprintf(stderr, "Please, state a image input.\n");
+						exit(1);
+					}
 					break;
 				////Argument to set the host image format
 				case 'f':
 					f_value = optarg;
+					if (strcmp(f_value, "") == 0) {
+						fprintf(stderr, "Please, state a image format.\n");
+						exit(1);
+					}
 					break;
 				case '?':
 					if (optopt == 'c') {
@@ -48,10 +76,15 @@ int main(int argc, char **argv){
 					abort();
 			}
 		} else {
-			for (index = optind; index < argc; index++)
+			for (index = optind; index < argc; index++){
 				//Test the non-option argument
-				printf ("Non-option argument: %s\n", argv[index]);
+				//printf ("Non-option argument: %s\n", argv[index]);
 				h_value = argv[index];
+				if (strcmp(h_value, "") == 0) {
+					fprintf(stderr, "Please, state a image output.\n");
+					exit(1);
+				}
+			}
 			optind++;
 		}
 	}
@@ -62,5 +95,8 @@ int main(int argc, char **argv){
 
 	for (index = optind; index < argc; index++)
 		printf ("Non-option argument %s\n", argv[index]);*/
+
+	run();
+
 	return 0;
 }

@@ -62,6 +62,9 @@ PPM_Image* load_P6_PPM (const char *file_name){
     exit(1);
   }
 
+  //--------------------FINISHED READING IMAGE DATA--------------------------//
+
+  //close the file
   fclose(file);
   return (image);
 }
@@ -78,6 +81,32 @@ void check_PPM_Format(FILE *file, char *file_name){
     fprintf(stderr, "Invalid format.\n", );
     exit(1);
   }
+}
+
+void write_P6_PPM(const char *file_name, PPM_Image *image) {
+  FILE *fp;
+  fp.open(file_name, "wb");
+
+  if (!fp) {
+    fprintf(stderr, "Unable to create/open file '%s'.", file_name);
+    exit(1);
+  }
+
+  //-----------------------WRITE THE HEADER------------------------
+  //Format
+  fprintf(fp, "P6\n");
+
+  //comments
+  fprintf(fp, "# Image created by the Project Steg (Illuminatti).\n");
+
+  //size
+  fprintf(fp, "%d %d\n", image->width, image->height);
+
+  //RGB component
+  fprintf(fp, "%d\n", image->rgb_component);
+
+  fwrite(image->data, 3 * image->width, image->height, fp);
+  fclose(fp);
 }
 
 
