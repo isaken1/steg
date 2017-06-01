@@ -143,13 +143,11 @@ PPM_Image* write_Message(char *file_name, PPM_Image image) {
   }
 
   char *message = convert_File_to_Text(input);
+
+  
 }
 
-
-
-
-
-
+// To set the LSB you
 
 
 // Take the least significant bytes and change them according to the message
