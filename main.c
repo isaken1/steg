@@ -1,21 +1,21 @@
-#include <stdio.h>
-#include <ctype.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include "./lib/ppm.h"
 #include "main.h"
 
-void encode(const char *file_name, const char *output_file, const char *file_format) {
-	write_P6_PPM(load_P6_PPM(file_name), "./output/output.ppm");
+void encode_ppm(const char *text_file, const char *output_file) {
+	write_P6_PPM(load_P6_PPM(output_file));
 }
 
 void decode() {
 	//TODO
 }
 
+
+//Check the arguments and run the encoding/decodig
 void run() {
 	if (e_flag == 1) {
-		encode(i_value, h_value, f_value);
+		if (strcmp(f_value, "ppm") == 0) {
+				encode_ppm(i_value, h_value);
+		}
+
 	} else if (d_flag == 1) {
 		decode();
 	}

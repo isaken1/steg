@@ -1,8 +1,15 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
+#include <stdio.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include "./lib/ppm.h"
+
 int main(int argc, char **argv);
-void encode(const char *file_name, const char *output_file);
+void encode_ppm(const char *text_file, const char *output_file);
 void decode();
 void run();
 

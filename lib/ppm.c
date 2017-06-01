@@ -3,7 +3,7 @@
 PPM_Image* load_P6_PPM (const char *file_name){
   FILE *file;
   PPM_Image *image;
-  int commentary;
+  int c;
 
   //Initialize and open the file for reading
   file = fopen(file_name, "rb");
@@ -22,7 +22,7 @@ PPM_Image* load_P6_PPM (const char *file_name){
       c = getc(file);
     }
   }
-  ungetc(c, fp);
+  ungetc(c, file);
 
   //Allocate memory
   image = (PPM_Image *) malloc(sizeof(PPM_Image));
@@ -69,26 +69,28 @@ PPM_Image* load_P6_PPM (const char *file_name){
   return (image);
 }
 
-void check_PPM_Format(FILE *file, char *file_name){
+void check_PPM_Format(FILE *file, const char *file_name){
   char header[16];
   if (!fgets(header, sizeof(header), file)) {
     perror(file_name);
-    exit(1)
+    exit(1);
   }
 
   //Check if the image header is = P6
   if (header[0] != 'P' || header[1] != '6') {
-    fprintf(stderr, "Invalid format.\n", );
+    fprintf(stderr, "Invalid format.\n");
     exit(1);
   }
 }
 
-void write_P6_PPM(const char *file_name, PPM_Image *image) {
+void write_P6_PPM(PPM_Image *image) {
   FILE *fp;
-  fp.open(file_name, "wb");
+  fp = fopen("output.ppm", "wb");
+
+  struct stat st = {0};
 
   if (!fp) {
-    fprintf(stderr, "Unable to create/open file '%s'.", file_name);
+    fprintf(stderr, "Unable to create output file");
     exit(1);
   }
 
@@ -97,7 +99,7 @@ void write_P6_PPM(const char *file_name, PPM_Image *image) {
   fprintf(fp, "P6\n");
 
   //comments
-  fprintf(fp, "# Image created by the Project Steg (Illuminatti).\n");
+  fprintf(fp, "# Image created through the Project Steg (Illuminatti).\n");
 
   //size
   fprintf(fp, "%d %d\n", image->width, image->height);
