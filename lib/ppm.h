@@ -19,5 +19,7 @@ typedef struct {
 PPM_Image* load_P6_PPM(const char *file_name);
 void check_PPM_Format (FILE *file, const char *file_name);
 void write_P6_PPM(PPM_Image* image);
+PPM_Image* write_Message(char *file_name, PPM_Image image);
+char* convert_File_to_Text(FILE* file);
 
 #endif

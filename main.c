@@ -15,7 +15,6 @@ void run() {
 		if (strcmp(f_value, "ppm") == 0) {
 				encode_ppm(i_value, h_value);
 		}
-
 	} else if (d_flag == 1) {
 		decode();
 	}

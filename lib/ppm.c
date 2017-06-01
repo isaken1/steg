@@ -87,8 +87,6 @@ void write_P6_PPM(PPM_Image *image) {
   FILE *fp;
   fp = fopen("output.ppm", "wb");
 
-  struct stat st = {0};
-
   if (!fp) {
     fprintf(stderr, "Unable to create output file");
     exit(1);
@@ -109,6 +107,42 @@ void write_P6_PPM(PPM_Image *image) {
 
   fwrite(image->data, 3 * image->width, image->height, fp);
   fclose(fp);
+}
+
+char *convert_File_to_Text(FILE *file) {
+  long size;
+  char *buffer;
+
+  fseek(file, 0L, SEEK_END);
+  size = ftell(file);
+  rewind(file);
+
+  buffer = calloc(1, size + 1);
+  if (!buffer) {
+    fclose(file);
+    fprintf(stderr, "Unable to allocate memory");
+    exit(1);
+  }
+
+  if (fread(buffer, size, 1, file) != 1) {
+    fclose(file);
+    free(buffer);
+    fprintf(stderr, "Unable to read file.");
+    exit(1);
+  }
+
+  fclose(file);
+  return buffer;
+}
+
+PPM_Image* write_Message(char *file_name, PPM_Image image) {
+  FILE *input = fopen(file_name, "r");
+  if (!input) {
+    fprintf("Unable to read file.");
+    exit(1);
+  }
+
+  char *message = convert_File_to_Text(input);
 }
 
 
