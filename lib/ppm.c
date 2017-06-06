@@ -138,7 +138,7 @@ char *convert_File_to_Text(FILE *file) {
 PPM_Image* write_Message(char *file_name, PPM_Image image) {
   FILE *input = fopen(file_name, "r");
   if (!input) {
-    fprintf("Unable to read file.");
+    fprintf(stderr, "Unable to read file.");
     exit(1);
   }
 
@@ -146,8 +146,6 @@ PPM_Image* write_Message(char *file_name, PPM_Image image) {
 
   
 }
-
-// To set the LSB you
 
 
 // Take the least significant bytes and change them according to the message

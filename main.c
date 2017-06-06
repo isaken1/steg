@@ -1,7 +1,7 @@
 #include "main.h"
 
-void encode_ppm(const char *text_file, const char *output_file) {
-	write_P6_PPM(load_P6_PPM(output_file));
+void encode_ppm(const char *text_file, const char *host_file) {
+	write_P6_PPM(load_P6_PPM(host_file));
 }
 
 void decode() {
@@ -14,6 +14,8 @@ void run() {
 	if (e_flag == 1) {
 		if (strcmp(f_value, "ppm") == 0) {
 				encode_ppm(i_value, h_value);
+		} else {
+			fprintf(stderr, "Invalid format.");
 		}
 	} else if (d_flag == 1) {
 		decode();
