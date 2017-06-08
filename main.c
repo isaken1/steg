@@ -1,7 +1,10 @@
 #include "main.h"
 
 void encodePPM(const char *text_file, const char *host_file) {
-	writeP6PPM(loadP6PPM(host_file));
+	PPM_Image *image = loadP6PPM(host_file);
+	PPM_Image *encoded_image;
+	encoded_image = writeMessage(i_value, image);
+	writeP6PPM(image);
 }
 
 void decode() {
@@ -51,8 +54,8 @@ int main(int argc, char **argv) {
 				//Argument to set the input file
 				case 'i':
 					i_value = optarg;
-					if (strcmp(i_value, "") == 0) {
-						fprintf(stderr, "Please, state a image input.\n");
+					if (strcmp(i_value, "") == 0 && e_flag == 1) {
+						fprintf(stderr, "Please, state a input to be encoded.\n");
 						exit(1);
 					}
 					break;
