@@ -1,6 +1,6 @@
 #include "ppm.h"
 
-PPM_Image* load_P6_PPM (const char *file_name){
+PPM_Image* loadP6PPM (const char *file_name){
   FILE *file;
   PPM_Image *image;
   int c;
@@ -13,7 +13,7 @@ PPM_Image* load_P6_PPM (const char *file_name){
   }
 
   //---------------------STARTED READING IMAGE HEADER--------------------------//
-  check_PPM_Format(file, file_name);
+  checkPPMFormat(file, file_name);
 
   //Skip second line commentaries, if they exist
   c = getc(file);
@@ -69,7 +69,7 @@ PPM_Image* load_P6_PPM (const char *file_name){
   return (image);
 }
 
-void check_PPM_Format(FILE *file, const char *file_name){
+void checkPPMFormat(FILE *file, const char *file_name){
   char header[16];
   if (!fgets(header, sizeof(header), file)) {
     perror(file_name);
@@ -83,7 +83,7 @@ void check_PPM_Format(FILE *file, const char *file_name){
   }
 }
 
-void write_P6_PPM(PPM_Image *image) {
+void writeP6PPM(PPM_Image *image) {
   FILE *fp;
   fp = fopen("output.ppm", "wb");
 
@@ -109,14 +109,16 @@ void write_P6_PPM(PPM_Image *image) {
   fclose(fp);
 }
 
-char *convert_File_to_Text(FILE *file) {
+char *convertFileToText(FILE *file) {
   long size;
   char *buffer;
 
+  //Get file size
   fseek(file, 0L, SEEK_END);
   size = ftell(file);
   rewind(file);
 
+  //Alloc memory to the buffer
   buffer = calloc(1, size + 1);
   if (!buffer) {
     fclose(file);
@@ -124,6 +126,7 @@ char *convert_File_to_Text(FILE *file) {
     exit(1);
   }
 
+  //Read file
   if (fread(buffer, size, 1, file) != 1) {
     fclose(file);
     free(buffer);
@@ -135,19 +138,50 @@ char *convert_File_to_Text(FILE *file) {
   return buffer;
 }
 
-PPM_Image* write_Message(char *file_name, PPM_Image image) {
+PPM_Image* writeMessage(char *file_name, PPM_Image *image) {
   FILE *input = fopen(file_name, "r");
   if (!input) {
     fprintf(stderr, "Unable to read file.");
     exit(1);
   }
 
-  char *message = convert_File_to_Text(input);
+  char *message = convertFileToText(input);
+  char *message_bits;
 
-  
+  int i, j;
+  //Get the bit amount in the message
+  int string_bits = strlen(message) * sizeof(char) * 8;
+  int counter = 0;
+
+  //Alloc the array that will hold the message's bits
+  message_bits = malloc(strlen(message) * sizeof(char) * 8);
+
+  if (image) {
+    int image_size = 3 * image->height * image->width;
+    //Check if image will hold the entire message plus the escape character
+    if ((strlen(message) + strlen('\0')) * sizeof(char) > image_size * sizeof(char)) {
+      fprintf(stderr, "Message too long for the selected image");
+      exit(1)
+    } else {
+      //Set the message bits in the array, note that the array holds the
+      //inverted message;
+      while (counter < string_bits) {
+        *(message_bits + counter) = *message % 2;
+        counter++;
+        *message = *message >> 1;
+      }
+
+      counter = 0;
+      for (i = 0; i < image->height * image->width; i++) {
+
+      }
+    }
+  }
+
+
 }
 
 
 // Take the least significant bytes and change them according to the message
 // 1 char = 1 byte. 1 int = 4 bytes
-// Which means 1 char needs 8 least significant bytes to be written in, which means 2 integers variables.
+// Which means 1 char needs 8 least significant bits to be written in, which means 2 integers variables.

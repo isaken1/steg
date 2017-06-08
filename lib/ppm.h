@@ -16,10 +16,10 @@ typedef struct {
   PPM_Pixel *data;
 } PPM_Image;
 
-PPM_Image* load_P6_PPM(const char *file_name);
-void check_PPM_Format (FILE *file, const char *file_name);
-void write_P6_PPM(PPM_Image* image);
-PPM_Image* write_Message(char *file_name, PPM_Image image);
-char* convert_File_to_Text(FILE* file);
+PPM_Image* loadP6PPM(const char *file_name);
+void checkPPMFormat (FILE *file, const char *file_name);
+void writeP6PPM(PPM_Image* image);
+PPM_Image* writeMessage(char *file_name, PPM_Image *image);
+char* convertFileToText(FILE* file);
 
 #endif

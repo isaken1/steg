@@ -9,7 +9,7 @@
 #include "./lib/ppm.h"
 
 int main(int argc, char **argv);
-void encode_ppm(const char *text_file, const char *output_file);
+void encodeppm(const char *text_file, const char *output_file);
 void decode();
 void run();
 
