@@ -150,29 +150,37 @@ PPM_Image* writeMessage(char *file_name, PPM_Image *image) {
 
   int i, j;
   //Get the bit amount in the message
-  int string_bits = strlen(message) * sizeof(char) * 8;
+  int string_bits_count = strlen(message) * sizeof(char) * 8;
+  printf("String bits count: %d\n", string_bits_count);
   int counter = 0;
 
   //Alloc the array that will hold the message's bits
-  message_bits = malloc(strlen(message) * sizeof(char) * 8);
+  message_bits = malloc(string_bits_count);
 
   if (image) {
+
     int image_size = 3 * image->height * image->width;
+    printf("Image size: %d\n", image_size);
+
     //Check if image will hold the entire message plus the escape character
-    if ((strlen(message) + strlen('\0')) * sizeof(char) > image_size * sizeof(char)) {
+    if ((strlen(message) + sizeof(char)) * sizeof(char) > image_size * sizeof(char)) {
       fprintf(stderr, "Message too long for the selected image");
       exit(1);
     } else {
       //Set the message bits in the array, note that the array holds the
       //inverted message
-      while (counter < string_bits) {
-        *(message_bits + counter) = *message % 2;
-        counter++;
+      while (counter < string_bits_count) {
+        *(message_bits + counter) = ((*message) % 2);
+        //printf("Counter: %d\n", counter);
         *message = *message >> 1;
+        //printf("Message bit: %c\n", *(message_bits + counter));
+        counter++;
       }
 
+
+
       int bit_index = 0;
-      for (i = 0; i < image->height * image->width; i++) {
+      for (i = 0; i < bit_index; i++) {
         if (*(message_bits + bit_index) != (image->data[i].red % 2)) {
           image->data[i].red = (image->data[i].red & 0xFE) | *(message_bits + bit_index);
         }
@@ -188,6 +196,7 @@ PPM_Image* writeMessage(char *file_name, PPM_Image *image) {
         }
         bit_index++;
       }
+
 
       int escape_index = 0;
       char escape_char = '\0';

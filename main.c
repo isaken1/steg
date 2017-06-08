@@ -4,7 +4,10 @@ void encodePPM(const char *text_file, const char *host_file) {
 	PPM_Image *image = loadP6PPM(host_file);
 	PPM_Image *encoded_image;
 	encoded_image = writeMessage(i_value, image);
-	writeP6PPM(image);
+	writeP6PPM(encoded_image);
+	if (encoded_image) {
+		printf("Successfully encoded the image in outpup.ppm.\n");
+	}
 }
 
 void decode() {
