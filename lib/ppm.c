@@ -196,33 +196,33 @@ PPM_Image* writeMessage(char *file_name, PPM_Image *image) {
       if (escape_char % 2 != (image->data[i].red % 2)) {
         image->data[i].red = image->data[i].red & 0xFE | escape_char % 2;
       }
-      escape_char >> 1;
+      escape_char = escape_char >> 1;
       if (escape_char % 2 != (image->data[i].green % 2)) {
         image->data[i].green = image->data[i].green & 0xFE | escape_char % 2;
       }
-      escape_char >> 1;
+      escape_char = escape_char >> 1;
       if (escape_char % 2 != (image->data[i].blue % 2)) {
         image->data[i].blue = image->data[i].blue & 0xFE | escape_char % 2;
       }
-      escape_char >> 1;
+      escape_char = escape_char >> 1;
       i++;
       if (escape_char % 2 != (image->data[i].red % 2)) {
         image->data[i].red = image->data[i].red & 0xFE | escape_char % 2;
       }
-      escape_char >> 1;
+      escape_char = escape_char >> 1;
       if (escape_char % 2 != (image->data[i].green % 2)) {
         image->data[i].green = image->data[i].green & 0xFE | escape_char % 2;
       }
-      escape_char >> 1;
+      escape_char = escape_char >> 1;
       if (escape_char % 2 != (image->data[i].blue % 2)) {
         image->data[i].blue = image->data[i].blue & 0xFE | escape_char % 2;
       }
-      escape_char >> 1;
+      escape_char = escape_char >> 1;
       i++;
       if (escape_char % 2 != (image->data[i].red % 2)) {
         image->data[i].red = image->data[i].red & 0xFE | escape_char % 2;
       }
-      escape_char >> 1;
+      escape_char = escape_char >> 1;
       if (escape_char % 2 != (image->data[i].green % 2)) {
         image->data[i].green = image->data[i].green & 0xFE | escape_char % 2;
       }
