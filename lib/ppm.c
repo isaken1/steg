@@ -177,19 +177,22 @@ PPM_Image* writeMessage(char *file_name, PPM_Image *image) {
         counter++;
       }
 
-
-
       int bit_index = 0;
-      for (i = 0; i < bit_index; i++) {
+
+      for (i = 0; i < string_bits_count; i++) {
         if (*(message_bits + bit_index) != (image->data[i].red % 2)) {
+          printf("Original data: %d\n", image->data[i].red);
           image->data[i].red = (image->data[i].red & 0xFE) | *(message_bits + bit_index);
+          printf("New data: %d\n", image->data[i].red);
         }
         bit_index++;
+
 
         if (*(message_bits + bit_index) != (image->data[i].green % 2)) {
           image->data[i].green = (image->data[i].green & 0xFE) | *(message_bits + bit_index);
         }
         bit_index++;
+
 
         if (*(message_bits + bit_index) != (image->data[i].blue % 2)) {
           image->data[i].blue = (image->data[i].blue & 0xFE) | *(message_bits + bit_index);
