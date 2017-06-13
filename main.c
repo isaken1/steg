@@ -6,8 +6,14 @@ void encodePPM(const char *text_file, const char *host_file) {
 	encoded_image = writeMessage(i_value, image);
 	writeP6PPM(encoded_image);
 	if (encoded_image) {
-		printf("Successfully encoded the image in outpup.ppm.\n");
+		printf("Successfully encoded the image in output.ppm.\n");
 	}
+}
+
+void encodeBMP(const char *host_file) {
+	BMP_File image = loadBMP(host_file);
+	printf("Image loaded\n");
+	
 }
 
 void decode() {
@@ -20,6 +26,10 @@ void run() {
 	if (e_flag == 1) {
 		if (strcmp(f_value, "ppm") == 0) {
 				encodePPM(i_value, h_value);
+		} else if (strcmp(f_value, "bmp") == 0) {
+				printf("F: %s\n", f_value);
+				printf("H: %s\n", h_value);
+				encodeBMP(h_value);
 		} else {
 			fprintf(stderr, "Invalid format.");
 		}
@@ -33,7 +43,6 @@ int main(int argc, char **argv) {
 	int c;
 
 	int opterr = 0;
-
 
 	while (index < argc) {
 		if ((c = getopt (argc, argv, "edi:f:h:")) != -1) {
@@ -62,7 +71,7 @@ int main(int argc, char **argv) {
 						exit(1);
 					}
 					break;
-				////Argument to set the host image format
+				//Argument to set the host image format
 				case 'f':
 					f_value = optarg;
 					if (strcmp(f_value, "") == 0) {

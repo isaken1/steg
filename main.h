@@ -7,9 +7,11 @@
 #include <unistd.h>
 #include <string.h>
 #include "./lib/ppm.h"
+#include "./lib/bmp.h"
 
 int main(int argc, char **argv);
-void encodeppm(const char *text_file, const char *output_file);
+void encodePPM(const char *text_file, const char *output_file);
+void encodeBMP(const char *host_file);
 void decode();
 void run();
 
